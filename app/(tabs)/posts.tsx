@@ -52,7 +52,24 @@ const posts = () => {
       </Pressable>
     </View>
     <FlatList
-    data={posts}
+      data={posts}
+      keyExtractor={(post) => post.id.toString()}
+      renderItem={({item}) =>(
+        <View className='px-2 mt-5'>
+            <View className="flex-row items-center mb-2">
+              <Image
+                source={require("../../assets/images/pfp.jpeg")}
+                className="w-10 h-10 rounded-full mr-3"
+              />
+              <Text className='text-white font-bold text-lg'>
+                {item.username}
+              </Text>
+            </View>
+            <Text className='text-white ml-12 mb-2'>
+              {item.content}
+            </Text>
+        </View>
+      )}
     />
     </SafeAreaView>
     
