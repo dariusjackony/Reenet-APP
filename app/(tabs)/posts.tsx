@@ -1,12 +1,42 @@
-import {Pressable, StyleSheet, Text, TextInput, View, useColorScheme } from 'react-native'
+import {Pressable, StyleSheet, Text, TextInput, View, useColorScheme, Image, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from "expo-status-bar";
 import React from 'react'
 
 const posts = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+
+  const posts = [
+    {
+      id: 1,
+      username: "Darius",
+      content: "Learning React Native is fun",
+    },
+    {
+      id: 2,
+      username: "Isaac",
+      content: "Networking and coding today.",
+    },
+    {
+      id: 3,
+      username: "Zero-Day",
+      content: "Building my first mobile app.",
+    },
+  ];
+
   return (
     <SafeAreaView className="flex-1 dark:bg-black bg-white">
+      <StatusBar style="light" />
+      <View className="h-16 border-b border-zinc-800 flex-row items-center justify-between px-5">
+        <Text className="text-white text-2xl font-bold">
+         REENET
+        </Text>
+        <Image 
+         source={require("../../assets/images/pfp.jpeg")}
+         className='w-10 h-10 rounded-full'
+        />
+       </View>
       <View className='flex-1 px-2 dark:bg-black'>
       <TextInput
        placeholder="What's on your mind?"
@@ -21,6 +51,9 @@ const posts = () => {
         </Text>
       </Pressable>
     </View>
+    <FlatList
+    data={posts}
+    />
     </SafeAreaView>
     
   )
