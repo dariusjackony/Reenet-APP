@@ -19,12 +19,31 @@ import {
   Bookmark,
   Share2
 } from "lucide-react-native";
+import axios from "axios";
+import { API_URL } from "@env";
 
+const [postText, setPostText] = useState("")
+const [loading, setLoading] = useState(false)
+
+
+const handleSPost = async () => {
+  if(!postText.trim()) return;
+  try {
+    setLoading(true)
+    const response = await axios.post(API_URL, {
+      content: postText
+    });
+    console.log("Posted", response.data)
+    setPostText("")
+  } catch (error){
+    console.log("Error posting", error)
+  } finally {
+    setLoading(false)
+  }
+}
 const Posts = () => {
-
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
-
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -36,14 +55,14 @@ const Posts = () => {
     {
       id: 2,
       username: "Isaac",
-      content: "Networking and coding today.",
+      content: "My girlfriend is comming to visit me.",
       liked: false,
       likes: 8,
     },
     {
       id: 3,
-      username: "Zero-Day",
-      content: "Building my first mobile app.",
+      username: "Woori Timothy Otala",
+      content: "Revising mathematics today with my bold head...",
       liked: false,
       likes: 24,
     },
@@ -79,7 +98,7 @@ const Posts = () => {
         </Text>
       </View>
 
-      <Text className="text-white text-base mb-4">
+      <Text className="text-white text-base mb-4 ml-10">
         {item.content}
       </Text>
 
@@ -90,7 +109,7 @@ const Posts = () => {
           className="flex-row items-center gap-2"
         >
           <Heart
-            size={24}
+            size={20}
             color={item.liked ? "#ef4444" : "#9ca3af"}
             fill={item.liked ? "#ef4444" : "none"}
           />
@@ -101,7 +120,7 @@ const Posts = () => {
         </Pressable>
 
         <Pressable className="flex-row items-center gap-2">
-          <MessageCircle size={24} color="#9ca3af" />
+          <MessageCircle size={20} color="#9ca3af" />
 
           <Text className="text-zinc-400">
             3
@@ -109,11 +128,11 @@ const Posts = () => {
         </Pressable>
 
         <Pressable>
-          <Bookmark size={24} color="#9ca3af" />
+          <Bookmark size={20} color="#9ca3af" />
         </Pressable>
 
         <Pressable>
-          <Share2 size={24} color="#9ca3af" />
+          <Share2 size={20} color="#9ca3af" />
         </Pressable>
 
       </View>
@@ -137,14 +156,18 @@ const Posts = () => {
 
       <View className='px-2 py-3 border-b border-zinc-800'>
         <TextInput
+          value={postText}
+          onChangeText={setPostText}
           placeholder="What's on your mind?"
           placeholderTextColor="#888"
           className='text-white p-4 rounded-2xl border border-zinc-700'
         />
 
-        <Pressable className='bg-white mt-4 p-4 rounded-xl'>
+        <Pressable 
+         onPress={handleSPost}
+         className='bg-white mt-4 p-4 rounded-xl'>
           <Text className='text-black text-xl text-center font-bold'>
-            Post
+            {loading ? "Posting.." : "Post"}
           </Text>
         </Pressable>
       </View>
