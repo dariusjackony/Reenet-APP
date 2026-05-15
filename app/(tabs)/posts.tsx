@@ -39,10 +39,11 @@ const Posts = () => {
 
 const handleSPost = async () => {
   if(!postText.trim()) return;
+  console.log("API URL:", API_URL)
   try {
     setLoading(true)
     const response = await axios.post(API_URL, {
-      content: postText
+      signal_text: postText
     });
     console.log("Posted", response.data)
     setPostText("")

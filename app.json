@@ -2,7 +2,6 @@
   "expo": {
     "name": "signal-app",
     "slug": "signal-app",
-    "API_URL": "https://reenet.onrender.com/signals/",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -50,7 +49,8 @@
       "router": {},
       "eas": {
         "projectId": "abac5d1c-7360-43e8-8d19-eacc6bf3765d"
-      }
+      },
+      "API_URL": "https://reenet.onrender.com/signals/"
     }
   }
 }
