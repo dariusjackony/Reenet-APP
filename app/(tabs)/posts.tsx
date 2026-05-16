@@ -8,7 +8,6 @@ import {
   Image,
   FlatList
 } from 'react-native';
-import Constants from "expo-constants";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from 'react';
@@ -20,8 +19,8 @@ import {
   Bookmark,
   Share2
 } from "lucide-react-native";
-import axios from "axios";
-import { Alert } from "react-native";
+
+
 
 type Post = {
   id: number;
@@ -33,29 +32,9 @@ type Post = {
 
 
 const Posts = () => {
-  const API_URL = Constants.expoConfig?.extra?.API_URL;
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
-  const [postText, setPostText] = useState("")
-  const [loading, setLoading] = useState(false)
   const router = useRouter();
-
-const handleSPost = async () => {
-  if(!postText.trim()) return;
-  try {
-    setLoading(true)
-    const response = await axios.post(API_URL, {
-      signal_text: postText
-    });
-    console.log("Posted", response.data)
-    Alert.alert("Success", "Posted Successfully")
-    setPostText("")
-  } catch (error){
-    console.log("Error posting", error)
-  } finally {
-    setLoading(false)
-  }
-}
   const [posts, setPosts] = useState<Post[]>([
     {
       id: 1,
@@ -166,23 +145,6 @@ const handleSPost = async () => {
         />
       </View>
 
-      <View className='px-2 py-3 border-b border-zinc-800'>
-        <TextInput
-          value={postText}
-          onChangeText={setPostText}
-          placeholder="What's on your mind?"
-          placeholderTextColor="#888"
-          className='text-white p-4 rounded-2xl border border-zinc-700'
-        />
-
-        <Pressable 
-         onPress={handleSPost}
-         className='bg-white mt-4 p-4 rounded-xl'>
-          <Text className='text-black text-xl text-center font-bold'>
-            {loading ? "Posting.." : "Post"}
-          </Text>
-        </Pressable>
-      </View>
 
       <FlatList
         data={posts}
@@ -190,7 +152,7 @@ const handleSPost = async () => {
         keyExtractor={(item) => item.id.toString()}
       />
       <Pressable
-      onPress={()=> router.push("/createPost")}
+      onPress={()=> router.push("/createPosts")}
       className="absolute bottom-6 right-6 bg-white w-14 h-14 items-center justify-center rounded-full"
       >
         <Plus size={28} color="black" />
