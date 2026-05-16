@@ -7,6 +7,8 @@ import { Pressable,TextInput, useColorScheme } from 'react-native';
 import Constants from "expo-constants";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { X } from "lucide-react-native";
+import { useRouter } from 'expo-router';
+import { ActivityIndicator } from "react-native";
 
 const createPosts = () => {
   const [postText, setPostText] = useState("")
@@ -14,8 +16,9 @@ const createPosts = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const API_URL = Constants.expoConfig?.extra?.API_URL;
-
-  const handleSPost = async () => {
+  const router = useRouter();
+  
+  const handlePost = async () => {
     if(!postText.trim()) return;
     try {
       setLoading(true)
@@ -34,15 +37,28 @@ const createPosts = () => {
   return (
     <SafeAreaView className='flex-1 bg-black'>
       <View>
-            <View>
-             <Pressable>
+            <View className='flex-row items-center justify-between px-4 py-6 border-b border-zinc-800'>
+             <Pressable onPress={() => router.back("/posts")}>
               <X size={28} color="white" />
              </Pressable>
-             <Text className='text-white'>
+             <Text className="text-white text-xl font-bold">
               Create Post
              </Text>
+             <Pressable
+              onPress={handlePost}
+             >
+              <Text className="text-white text-xl font-bold">
+                 {loading ? (
+                 <ActivityIndicator size="small" color="white" />
+                  ) : (
+                    <Text className="text-white font-bold">
+                      Post
+                    </Text>
+                  )}
+              </Text>
+             </Pressable>
             </View>
-            <View className='px-2 py-3 border-b pt-10 border-zinc-800'>
+            <View className='px-2 py-3 pt-10'>
               <TextInput
                 value={postText}
                 onChangeText={setPostText}
@@ -50,14 +66,6 @@ const createPosts = () => {
                 placeholderTextColor="#888"
                 className='text-white p-4 rounded-2xl border border-zinc-700'
               />
-      
-              <Pressable 
-               onPress={handleSPost}
-               className='bg-white mt-4 p-4 rounded-xl'>
-                <Text className='text-black text-xl text-center font-bold'>
-                  {loading ? "Posting.." : "Post"}
-                </Text>
-              </Pressable>
             </View>
     </View>
     </SafeAreaView>
@@ -67,4 +75,3 @@ const createPosts = () => {
 
 export default createPosts
 
-const styles = StyleSheet.create({})
