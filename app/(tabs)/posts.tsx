@@ -58,7 +58,7 @@ const Posts = () => {
       likes: 24,
     },
   ]);
-
+  
   const toggleLike = (id: number) => {
     setPosts(
       posts.map((post) =>
